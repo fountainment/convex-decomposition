@@ -12,8 +12,14 @@ using namespace fim;
 
 int main()
 {
-	freopen("in.txt", "r", stdin);
-	freopen("out.txt", "w", stdout);
+	if (!freopen("in.txt", "r", stdin)) {
+		cout << "Fail open in.txt!" << endl;
+		exit(0);
+	};
+	if (!freopen("out.txt", "w", stdout)) {
+		cout << "Fail open out.txt!" << endl;
+		exit(0);
+	}
 	Polygon ori;
 	int n;
 	cin >> n;

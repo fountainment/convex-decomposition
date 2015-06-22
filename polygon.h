@@ -2,6 +2,7 @@
 #define _FIM_POLYGON_H_
 
 #include "vec2.h"
+#include "segment.h"
 #include <vector>
 #include <queue>
 
@@ -15,8 +16,21 @@ class Polygon : public Point2List
 public:
 	std::vector<Polygon> convexDecomposition();
 protected:
+	int indexNormalize(int index);
+
+	int insertPoint(const vec2 & p);
+
+	const vec2 getPoint(int index);
+	const vec2 getVector(int index);
+	const segment getSegment(int index);
+
+	bool isConcavePoint(int index);
 	int getConcavePoint();	
+
+	Point2List collideRay(const vec2 & src, const vec2 & drct);
 	IndexList getVisiblePointIndex(int ccPoint);
+
+	std::vector<Polygon> cutPolygon(int ccPoint, int anoPoint);
 	std::vector<Polygon> cutPolygon(int ccPoint);
 };
 

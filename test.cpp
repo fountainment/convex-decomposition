@@ -15,7 +15,7 @@ int main()
 	freopen("out.txt", "w", stdout);
 	Polygon ori;
 	int n;
-	scanf("%d", &n);
+	cin >> n;
 	for (int i = 0; i < n; i++) {
 		double tx, ty;
 		cin >> tx >> ty;

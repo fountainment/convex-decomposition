@@ -1,5 +1,6 @@
 #include <iostream>
 #include <cstdio>
+#include <cstdlib>
 #include <vector>
 #include <queue>
 #include "vec2.h"

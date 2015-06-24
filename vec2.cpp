@@ -72,7 +72,7 @@ bool fim::vec2::operator==(const vec2 & rhs) const
 
 bool fim::vec2::operator!=(const vec2 & rhs) const
 {
-	return (std::abs(x - rhs.x) >= fim::eps) && (std::abs(y - rhs.y) >= fim::eps);
+	return (std::abs(x - rhs.x) >= fim::eps) || (std::abs(y - rhs.y) >= fim::eps);
 }
 
 double fim::vec2::length() const

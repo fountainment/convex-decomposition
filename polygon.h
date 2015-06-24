@@ -16,6 +16,7 @@ class Polygon : public Point2List
 public:
 	Point2List collideRay(const vec2 & src, const vec2 & drct);
 	std::vector<Polygon> convexDecomposition();
+	const Polygon regular();
 protected:
 	int indexNormalize(int index);
 

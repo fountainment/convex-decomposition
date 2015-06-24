@@ -5,17 +5,25 @@ fim::PolygonList fim::Polygon::convexDecomposition()
 {
 	fim::PolygonList res;
 	fim::PolygonQueue processQueue;
-	processQueue.push(*this);
+	processQueue.push((*this));
 	while(!processQueue.empty()) {
-		auto tmp = processQueue.front();
+		auto currentPoly = processQueue.front();
 		processQueue.pop();
-		int ccPoint = tmp.getConcavePoint();
-		if (ccPoint == -1 && tmp.size() >= 3) {
-			res.push_back(tmp);
-		} else {
-			auto twoPolygon = tmp.cutPolygon(ccPoint);
-			for (int i = 0; i < (int)twoPolygon.size(); i++) {
-				processQueue.push(twoPolygon[i]);
+		int ccPoint = currentPoly.getConcavePoint();
+		if (currentPoly.size() >= 3) {
+			if (ccPoint == -1) {
+				currentPoly = currentPoly.regular();
+				if (currentPoly.size() >= 3) {
+					res.push_back(currentPoly);
+				}
+			} else {
+				auto twoPolygon = currentPoly.cutPolygon(ccPoint);
+				for (int i = 0; i < (int)twoPolygon.size(); i++) {
+					auto tmpPoly = twoPolygon[i];
+					if (tmpPoly.size() >= 3) {
+						processQueue.push(tmpPoly);
+					}
+				}
 			}
 		}
 		if (res.size() > 100 || processQueue.size() > 100) {
@@ -25,10 +33,21 @@ fim::PolygonList fim::Polygon::convexDecomposition()
 	return res;
 }
 
+const fim::Polygon fim::Polygon::regular()
+{
+	fim::Polygon res;
+	for (int i = 0; i < (int)size(); i++) {
+		if (getPoint(i) != getPoint(i - 1)) {
+			res.push_back(getPoint(i));
+		}
+	}
+	return res;
+}
+
 int fim::Polygon::indexNormalize(int index)
 {
 	int sz = (int)size();
-	return (index % sz + sz) % sz;
+	return ((index % sz) + sz) % sz;
 }
 
 int fim::Polygon::insertPoint(const vec2 & p)

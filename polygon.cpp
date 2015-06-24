@@ -10,7 +10,7 @@ fim::PolygonList fim::Polygon::convexDecomposition()
 		auto tmp = processQueue.front();
 		processQueue.pop();
 		int ccPoint = tmp.getConcavePoint();
-		if (ccPoint == -1) {
+		if (ccPoint == -1 && tmp.size() >= 3) {
 			res.push_back(tmp);
 		} else {
 			auto twoPolygon = tmp.cutPolygon(ccPoint);

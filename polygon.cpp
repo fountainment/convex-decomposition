@@ -39,10 +39,10 @@ int fim::Polygon::insertPoint(const vec2 & p)
 	for (Polygon::iterator it = begin(); it != end(); ++it) {
 		if (it != begin()) {
 			seg = fim::segment(lastVec, *it);
-		}
-		if (seg.collidePoint(p)) {
-			ans = std::distance(begin(), insert(it, p));
-			break;
+			if (seg.collidePoint(p)) {
+				ans = std::distance(begin(), insert(it, p));
+				break;
+			}
 		}
 		lastVec = *it;
 	}

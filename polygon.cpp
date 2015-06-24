@@ -18,6 +18,9 @@ fim::PolygonList fim::Polygon::convexDecomposition()
 				processQueue.push(twoPolygon[i]);
 			}
 		}
+		if (res.size() > 100 || processQueue.size() > 100) {
+			break;
+		}
 	}
 	return res;
 }
@@ -125,7 +128,7 @@ fim::IndexList fim::Polygon::getVisiblePointIndex(int ccPoint)
 		if (left.leftOrRight(p) == 1
 			&& right.leftOrRight(p) == -1) {
 			auto pl = collideRay(getPoint(ccPoint), p - getPoint(ccPoint));
-			if ((pl.size() == 1 && pl[0] == p) || pl.size() == 0)
+			if (pl.size() == 0 || pl[0] == p)
 			{
 				res.push_back(i);
 			}

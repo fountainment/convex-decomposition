@@ -1,9 +1,10 @@
 #include "vec2.h"
+#include "const.h"
 #include <cmath>
 
 fim::vec2::vec2()
-:x(0),
- y(0)
+:x(0.0),
+ y(0.0)
 {
 }
 
@@ -66,12 +67,12 @@ const fim::vec2 fim::vec2::normalize() const
 
 bool fim::vec2::operator==(const vec2 & rhs) const
 {
-	return (x == rhs.x) && (y == rhs.y);
+	return (std::abs(x - rhs.x) < fim::eps) && (std::abs(y - rhs.y) < fim::eps);
 }
 
 bool fim::vec2::operator!=(const vec2 & rhs) const
 {
-	return (x != rhs.x) || (y != rhs.y);
+	return (std::abs(x - rhs.x) >= fim::eps) && (std::abs(y - rhs.y) >= fim::eps);
 }
 
 double fim::vec2::length() const

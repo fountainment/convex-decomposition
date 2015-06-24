@@ -46,6 +46,7 @@ int fim::Polygon::insertPoint(const vec2 & p)
 		}
 		lastVec = *it;
 	}
+	if (ans == 0) insert(begin(), p);
 	return ans;
 }
 

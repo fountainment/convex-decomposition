@@ -5,4 +5,8 @@ C++ ConvexDecomposition
 Usable but need optimization.
 
 2015.06.24
-Fixed a bug according to accuracy, still have bugs.
+Fixed two bugs:
+
+1. Judge error according to float accuracy
+
+2. Fail inserting point in the first segment

@@ -1,4 +1,7 @@
 #include "segment.h"
+#include <cmath>
+
+extern const double eps = 0.0000001;
 
 fim::segment::segment()
 {
@@ -35,7 +38,7 @@ bool fim::segment::rectCollidePoint(const fim::vec2 & p) const
 
 bool fim::segment::collidePoint(const fim::vec2 & p) const
 {
-	return ((p - a).crossProduct(b - a) == 0 && rectCollidePoint(p));
+	return (std::abs((p - a).crossProduct(b - a)) < eps) && rectCollidePoint(p);
 }
 
 bool fim::segment::collideSegment(vec2 & pt, const segment & seg) const

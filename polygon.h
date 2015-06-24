@@ -14,6 +14,7 @@ typedef std::vector<int> IndexList;
 class Polygon : public Point2List
 {
 public:
+	Point2List collideRay(const vec2 & src, const vec2 & drct);
 	std::vector<Polygon> convexDecomposition();
 protected:
 	int indexNormalize(int index);
@@ -27,7 +28,6 @@ protected:
 	bool isConcavePoint(int index);
 	int getConcavePoint();	
 
-	Point2List collideRay(const vec2 & src, const vec2 & drct);
 	IndexList getVisiblePointIndex(int ccPoint);
 
 	std::vector<Polygon> cutPolygon(int ccPoint, int anoPoint);

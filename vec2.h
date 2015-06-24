@@ -12,13 +12,14 @@ public:
 	void move(double tx, double ty);
 	void move(const vec2 & vec);
 
-
 	const vec2 operator+(const vec2 & rhs) const;
 	const vec2 operator-() const;
 	const vec2 operator-(const vec2 & rhs) const;
+	const vec2 operator*(double rhs) const;
 	const vec2 operator/(double rhs) const;
 	const vec2 normalize() const;
 
+	bool operator==(const vec2 & rhs) const;
 	bool operator!=(const vec2 & rhs) const;
 
 	double length() const;

@@ -120,11 +120,12 @@ fim::IndexList fim::Polygon::getVisiblePointIndex(int ccPoint)
 	left.b = left.a - left.getVector();
 	right.b = right.a - right.getVector();
 	for (int i = 0; i < (int)size(); i++) {
+		if (i == ccPoint) continue;
 		auto p = getPoint(i);
-		if (left.leftOrRight(p) >= 0
-			&& right.leftOrRight(p) <= 0) {
+		if (left.leftOrRight(p) == 1
+			&& right.leftOrRight(p) == -1) {
 			auto pl = collideRay(getPoint(ccPoint), p - getPoint(ccPoint));
-			if (pl.size() == 1)
+			if ((pl.size() == 1 && pl[0] == p) || pl.size() == 0)
 			{
 				res.push_back(i);
 			}
@@ -172,7 +173,9 @@ fim::PolygonList fim::Polygon::cutPolygon(int ccPoint)
 		auto pl = collideRay(getPoint(ccPoint), middleVec);
 		if (!pl.empty()) {
 			int loc = insertPoint(pl[0]);
-			if (loc <= ccPoint) ccPoint++;
+			if (loc <= ccPoint) {
+				ccPoint = indexNormalize(ccPoint + 1);
+			}
 			return cutPolygon(ccPoint, loc);
 		} else {
 			//TODO: debug output

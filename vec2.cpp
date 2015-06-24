@@ -49,6 +49,11 @@ const fim::vec2 fim::vec2::operator-(const vec2 & rhs) const
 	return res;
 }
 
+const fim::vec2 fim::vec2::operator*(double rhs) const
+{
+	return vec2(x * rhs, y * rhs);
+}
+
 const fim::vec2 fim::vec2::operator/(double rhs) const
 {
 	return vec2(x / rhs, y / rhs);
@@ -57,6 +62,11 @@ const fim::vec2 fim::vec2::operator/(double rhs) const
 const fim::vec2 fim::vec2::normalize() const
 {
 	return (*this) / length();
+}
+
+bool fim::vec2::operator==(const vec2 & rhs) const
+{
+	return (x == rhs.x) && (y == rhs.y);
 }
 
 bool fim::vec2::operator!=(const vec2 & rhs) const

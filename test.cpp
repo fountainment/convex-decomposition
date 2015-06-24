@@ -28,6 +28,7 @@ int main()
 		cin >> tx >> ty;
 		ori.push_back(vec2(tx, ty));
 	}
+	///*
 	auto ans = ori.convexDecomposition();
 	for (int i = 0; i < (int)ans.size(); i++) {
 		auto tmp = ans[i];
@@ -36,6 +37,14 @@ int main()
 			cout << tmp[j].x << " " << tmp[j].y << endl;
 		}
 	}
+	//*/
+	/*
+	auto ans = ori.collideRay(vec2(-0.115, 0.485), vec2(1.675, 2.245) - vec2(-0.115, 0.485));
+	cout << ans.size() << endl;
+	for (int i = 0; i < (int)ans.size(); i++) {
+		cout << ans[i].x << " " << ans[i].y << endl;
+	}
+	*/
 	return 0;
 }
 

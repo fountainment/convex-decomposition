@@ -33,6 +33,8 @@
 			<Add option="-Wall" />
 			<Add option="-fexceptions" />
 		</Compiler>
+		<Unit filename="const.cpp" />
+		<Unit filename="const.h" />
 		<Unit filename="polygon.cpp" />
 		<Unit filename="polygon.h" />
 		<Unit filename="segment.cpp" />

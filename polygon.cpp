@@ -1,25 +1,23 @@
 #include "polygon.h"
 #include <algorithm>
+#include <iostream>
 
 fim::PolygonList fim::Polygon::convexDecomposition()
 {
 	fim::PolygonList res;
 	fim::PolygonQueue processQueue;
-	processQueue.push((*this));
+	processQueue.push(regular());
 	while(!processQueue.empty()) {
 		auto currentPoly = processQueue.front();
 		processQueue.pop();
 		int ccPoint = currentPoly.getConcavePoint();
 		if (currentPoly.size() >= 3) {
 			if (ccPoint == -1) {
-				currentPoly = currentPoly.regular();
-				if (currentPoly.size() >= 3) {
-					res.push_back(currentPoly);
-				}
+				res.push_back(currentPoly);
 			} else {
 				auto twoPolygon = currentPoly.cutPolygon(ccPoint);
 				for (int i = 0; i < (int)twoPolygon.size(); i++) {
-					auto tmpPoly = twoPolygon[i];
+					auto tmpPoly = twoPolygon[i].regular();
 					if (tmpPoly.size() >= 3) {
 						processQueue.push(tmpPoly);
 					}
@@ -37,11 +35,20 @@ const fim::Polygon fim::Polygon::regular()
 {
 	fim::Polygon res;
 	for (int i = 0; i < (int)size(); i++) {
-		if (getPoint(i) != getPoint(i - 1)) {
+		if (getPoint(i) != getPoint(i - 1)
+		&& getVector(i).normalize() != getVector(i - 1).normalize()) {
 			res.push_back(getPoint(i));
 		}
 	}
 	return res;
+}
+
+void fim::Polygon::print()
+{
+	std::cout << size() << std::endl;
+	for (auto it = begin(); it != end(); ++it) {
+		std::cout << (*it).x << " " << (*it).y << std::endl;
+	}
 }
 
 int fim::Polygon::indexNormalize(int index)
@@ -127,6 +134,7 @@ fim::Point2List fim::Polygon::collideRay(const fim::vec2 & src, const fim::vec2 
 	raySrc = src;
 	std::sort(res.begin(), res.end(), cmpDistanceToSrc);
 	for (int i = 0; i < (int)res.size(); i++) {
+		if (res[i] == src) continue;
 		if (i == 0 || res[i] != res[i - 1]) {
 			uniqueRes.push_back(res[i]);
 		}

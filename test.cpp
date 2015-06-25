@@ -31,12 +31,8 @@ int main()
 	}
 	///*
 	auto ans = ori.convexDecomposition();
-	for (int i = 0; i < (int)ans.size(); i++) {
-		auto tmp = ans[i];
-		cout << tmp.size() << endl;
-		for (int j = 0; j < (int)tmp.size(); j++) {
-			cout << tmp[j].x << " " << tmp[j].y << endl;
-		}
+	for (auto it = ans.begin(); it != ans.end(); ++it) {
+		(*it).print();
 	}
 	//*/
 	/*

@@ -27,10 +27,15 @@ protected:
 	const vec2 getVector(int index);
 	const segment getSegment(int index);
 
+	int minDistanceOfTwoPoint(int pa, int pb);
+
 	bool isConcavePoint(int index);
 	int getConcavePoint();	
 
+	bool isBetterPoint(int ccPoint, int pa, int pb);
+
 	IndexList getVisiblePointIndex(int ccPoint);
+	int getBestPointIndex(int ccPoint);
 
 	std::vector<Polygon> cutPolygon(int ccPoint, int anoPoint);
 	std::vector<Polygon> cutPolygon(int ccPoint);

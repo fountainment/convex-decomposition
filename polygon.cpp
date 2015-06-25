@@ -92,6 +92,15 @@ const fim::segment fim::Polygon::getSegment(int index)
 	return fim::segment(getPoint(index), getPoint(index + 1));
 }
 
+int fim::Polygon::minDistanceOfTwoPoint(int pa, int pb)
+{
+	int ans = pa - pb;
+	int sz = size();
+	if (ans < 0) ans *= -1;
+	if (ans > sz / 2) ans = sz - ans;
+	return ans;
+}
+
 bool fim::Polygon::isConcavePoint(int index)
 {
 	auto prev = getVector(index - 1);
@@ -142,6 +151,16 @@ fim::Point2List fim::Polygon::collideRay(const fim::vec2 & src, const fim::vec2 
 	return uniqueRes;
 }
 
+bool fim::Polygon::isBetterPoint(int ccPoint, int pa, int pb)
+{
+	if (pb == -1) return true;
+	if (minDistanceOfTwoPoint(pa, ccPoint) < 
+	 minDistanceOfTwoPoint(pb, ccPoint)) {
+		return true;
+	}
+	return false;
+}
+
 fim::IndexList fim::Polygon::getVisiblePointIndex(int ccPoint)
 {
 	fim::IndexList res;
@@ -152,6 +171,8 @@ fim::IndexList fim::Polygon::getVisiblePointIndex(int ccPoint)
 	right.b = right.a - right.getVector();
 	for (int i = 0; i < (int)size(); i++) {
 		if (i == ccPoint) continue;
+		if (i == indexNormalize(ccPoint + 1)) continue;
+		if (i == indexNormalize(ccPoint - 1)) continue;
 		auto p = getPoint(i);
 		if (left.leftOrRight(p) == 1
 			&& right.leftOrRight(p) == -1) {
@@ -163,6 +184,29 @@ fim::IndexList fim::Polygon::getVisiblePointIndex(int ccPoint)
 		}
 	}
 	return res;
+}
+
+int fim::Polygon::getBestPointIndex(int ccPoint)
+{
+	int index = -1;
+	int state = 0;
+	auto iList = getVisiblePointIndex(ccPoint);
+	for (auto it = iList.begin(); it != iList.end(); ++it) {
+		if (state < 4 && isConcavePoint(*it) && isBetterPoint(ccPoint, *it, index)) {
+			index = *it;
+			state = 4;
+		} else if (state < 3 && isConcavePoint(*it)) {
+			index = *it;
+			state = 3;
+		} else if (state < 2 && isBetterPoint(ccPoint, *it, index)) {
+			index = *it;
+			state = 2;
+		} else if (state < 1) {
+			index = *it;
+			state = 1;
+		}
+	}
+	return index;
 }
 
 fim::PolygonList fim::Polygon::cutPolygon(int ccPoint, int anoPoint)
@@ -194,9 +238,9 @@ fim::PolygonList fim::Polygon::cutPolygon(int ccPoint, int anoPoint)
 fim::PolygonList fim::Polygon::cutPolygon(int ccPoint)
 {
 	fim::PolygonList res;
-	auto iList = getVisiblePointIndex(ccPoint);	
-	if (!iList.empty()) {
-		return cutPolygon(ccPoint, iList[0]);
+	int best = getBestPointIndex(ccPoint);
+	if (best != -1) {
+		return cutPolygon(ccPoint, best);
 	} else {
 		auto left = -getVector(ccPoint);
 		auto right = getVector(ccPoint - 1);

@@ -10,7 +10,7 @@ class segment
 public:
 	segment();
 	segment(vec2 pa, vec2 pb);
-	
+
 	void swapAB();
 
 	const vec2 getVector() const;
